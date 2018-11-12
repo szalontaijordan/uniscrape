@@ -1,39 +1,25 @@
-import puppeteer, { EvaluateFn, Browser } from 'puppeteer';
+import { EvaluateFn, Browser } from 'puppeteer';
+import { HeadlessDomScraper } from './headless-dom.scraper';
 
-export class Java8DocScraper {
+export class Java8DocScraper extends HeadlessDomScraper {
 
-    private scrapeURL: string = 'https://docs.oracle.com/javase/8/docs/api/';
-
-    constructor(private browser: Browser) {
-    }
-
-    public async getInformationFromPage(evaluateFn: EvaluateFn, ...children: Array<string>): Promise<any> {
-        const page = await this.browser.newPage();
-        const URL = this.scrapeURL + children.join('/');
-
-        await page.goto(URL, { waitUntil: 'networkidle2' });
-
-        const result = await page.evaluate(evaluateFn);
-
-        page.close();
-
-        console.log('Getting information from page ', URL);
-        return result;
+    constructor(browser: Browser, url: string) {
+        super(browser, url);
     }
 
     public async getTitle(): Promise<any> {
-        return this.getInformationFromPage(this.pageTitleExtractor());
+        return super.getInformationFromPage(this.pageTitleExtractor());
     }
 
     public async getExceptionList(): Promise<any> {
-        return this.getInformationFromPage(this.exceptionListExtractor(), 'allclasses-frame.html');
+        return super.getInformationFromPage(this.exceptionListExtractor(), 'allclasses-frame.html');
     }
 
-    private pageTitleExtractor() {
+    private pageTitleExtractor(): EvaluateFn {
         return () => document.querySelector('head title').innerHTML;
     }
 
-    private exceptionListExtractor() {
+    private exceptionListExtractor(): EvaluateFn {
         return () => {
             const nodeList: NodeList = document.querySelectorAll('.indexContainer ul li');
 

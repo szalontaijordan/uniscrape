@@ -5,9 +5,9 @@ import puppeteer from 'puppeteer';
 
 const router: Router = Router();
 
-router.get('/', async (req: Request, res: Response) => {
+router.get('/8/exceptions', async (req: Request, res: Response) => {
     const browser = await puppeteer.launch();
-    const scraper = new Java8DocScraper(browser);
+    const scraper = new Java8DocScraper(browser, 'https://docs.oracle.com/javase/8/docs/api/');
     
     const title = await scraper.getTitle();
     const exceptionList = await scraper.getExceptionList();
@@ -17,4 +17,4 @@ router.get('/', async (req: Request, res: Response) => {
     res.json({ title, exceptionList });
 });
 
-export const IndexController: Router = router;
+export const JavaController: Router = router;
