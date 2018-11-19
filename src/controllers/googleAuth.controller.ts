@@ -1,6 +1,6 @@
 import { config } from '../../config/vars';
 import { OAuth2Client } from 'google-auth-library';
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 
 const router: Router = Router();
 
@@ -31,8 +31,12 @@ router.get('/auth', async (req: Request, res: Response) => {
 });
 
 router.get('/logout', async (req, res) => {
-    req.session.user = null;
-    res.send('Session ended');
+    if (!req.session.user) {
+        res.status(500).send('You can\'t log out if you are not logged in!');
+    } else {
+        req.session.user = null;
+        res.send('Session ended');
+    }
 });
 
 export const GoogleAuthController: Router = router;
