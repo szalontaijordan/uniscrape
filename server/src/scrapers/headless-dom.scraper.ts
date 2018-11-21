@@ -1,4 +1,4 @@
-import { Browser, EvaluateFn } from "puppeteer";
+import { Browser, EvaluateFn } from 'puppeteer';
 
 export class HeadlessDomScraper {
 

@@ -8,12 +8,12 @@ const router: Router = Router();
 router.get('/8/exceptions', async (req: Request, res: Response) => {
     const browser = await puppeteer.launch();
     const scraper = new Java8DocScraper(browser, 'https://docs.oracle.com/javase/8/docs/api/');
-    
+
     const title = await scraper.getTitle();
     const exceptionList = await scraper.getExceptionList();
 
     await browser.close();
-    
+
     res.json({ title, exceptionList });
 });
 

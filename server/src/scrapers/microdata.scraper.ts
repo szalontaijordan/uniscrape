@@ -14,17 +14,17 @@ export class MicroDataScraper extends HeadlessDomScraper {
     public async getJson(): Promise<any> {
         const scopes = await super.getInformationFromPage(this.getScopes());
         const scopeItems = (scopes as Array<any>).map(scope => microdata.toJson(scope));
-        
+
         return ({ scopeItems });
     }
 
     private getScopes(): EvaluateFn {
         return () => {
             const fullExample = (document.querySelector('.example:last-of-type pre') as HTMLElement).innerText;
-            let dom = document.createElement('div');
+            const dom = document.createElement('div');
             dom.innerHTML = fullExample;
 
-            return Array.from(dom.querySelectorAll('[itemscope]')).map(scope => scope.outerHTML);         
+            return Array.from(dom.querySelectorAll('[itemscope]')).map(scope => scope.outerHTML);
         };
     }
 }

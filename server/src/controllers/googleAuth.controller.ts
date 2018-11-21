@@ -16,7 +16,7 @@ router.get('/auth', async (req: Request, res: Response) => {
         });
         const payload = ticket.getPayload();
         const userid = payload['sub'];
-        
+
         req.session.user = {
             id: userid,
             name,

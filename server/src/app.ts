@@ -1,7 +1,6 @@
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 import path from 'path';
 import session from 'express-session';
 
@@ -10,14 +9,24 @@ import { config } from '../config/vars';
 import { DatabaseController } from './controllers/database.controller';
 import { GoogleAuthController } from './controllers/googleAuth.controller';
 
-const app: express.Application = express();
+const app: Application = express();
 const port: number = +process.env.PORT || 3000;
 
-// setting up cors, so we can use this as the backend
-app.use(cors({
-    origin: 'http://localhost:4200',
-    optionsSuccessStatus: 200
-}));
+// allow any method from any host and log requests
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE');
+
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        console.log(`${req.ip} ${req.method} ${req.url}`);
+        next();
+    }
+});
+
+app.use(express.static(path.join(__dirname, '../../ui/dist')));
 
 // setting up session usage
 app.use(cookieParser());
@@ -29,7 +38,7 @@ const checkSession = (req: Request, res: Response, next: NextFunction) => {
     } else {
         next(new Error('You are not authorized to view this resource.'));
     }
-}
+};
 
 // setting up bodyparser
 app.use(bodyParser.json());
@@ -41,7 +50,7 @@ app.use('/api/google', GoogleAuthController);
 
 // setting up index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'public/index.html'));
+    res.sendFile('index.html');
 });
 
 // starting server

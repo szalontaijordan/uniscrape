@@ -26,6 +26,6 @@ export class Java8DocScraper extends HeadlessDomScraper {
             return Array.from(nodeList)
                 .map(li => (li as HTMLElement).innerText)
                 .filter(li => li.endsWith('Exception'));
-        }
+        };
     }
 }

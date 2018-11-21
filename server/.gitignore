@@ -168,5 +168,4 @@ fabric.properties
 
 # End of https://www.gitignore.io/api/node,webstorm,visualstudiocode
 
-server/node_modules
-ui/node_modules
+dist/
