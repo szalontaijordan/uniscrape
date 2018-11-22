@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"(cd ui && ng build --output-path dist --watch)\" \"(cd server && .\\node_modules\\.bin\\ts-node-dev .\\src\\app.ts)\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd ui && npm run prod && cd .. && cd server && npm run start",
-    "build": "cd ui && npm i && cd .. && cd server && npm i && cd .. && start"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
