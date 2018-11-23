@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"(cd ui && ng build --output-path dist --watch)\" \"(cd server && .\\node_modules\\.bin\\ts-node-dev .\\src\\app.ts)\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "concurrently \"(cd ui && npm run build-watch)\" \"(cd server && npm run tsc-watch)\" \"(nodemon index.js)\"",
+    "build-server": "cd server && npm run build && cd ..",
+    "build-ui": "cd ui && npm run build && cd..",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm-recursive-install --skip-root --production && npm run build-server && npm run build-ui && node index.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +22,6 @@
   "homepage": "https://github.com/szalontaijordan/uniscrape#readme",
   "dependencies": {
     "concurrently": "^4.1.0",
-    "shelljs": "^0.8.3"
+    "recursive-install": "^1.4.0"
   }
 }

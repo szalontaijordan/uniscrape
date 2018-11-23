@@ -1,0 +1,23 @@
+Routes:
+
+#prioriry: low
+/api/book/ebay (no microdata)
+- full search 
+
+#prioriry: low
+/api/book/amazon (no microdata)
+
+- full search 
+
+#priority: high
+/api/book/depository (microdata)
+- full search
+- related
+- bestselling
+- must read
+- new release
+- preorders
+- children
+
+#priority: kinda high (todo: investigate login flow)
+/api/book/depository/wishlist

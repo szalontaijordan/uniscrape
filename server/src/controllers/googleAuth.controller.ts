@@ -24,7 +24,7 @@ router.get('/auth', async (req: Request, res: Response) => {
             imgUrl
         };
 
-        res.send('Session created');
+        res.send({ message: 'Session created' });
     } catch (err) {
         res.send(err);
     }
@@ -35,7 +35,7 @@ router.get('/logout', async (req, res) => {
         res.status(500).send('You can\'t log out if you are not logged in!');
     } else {
         req.session.user = null;
-        res.send('Session ended');
+        res.send({ message: 'Session ended' });
     }
 });
 

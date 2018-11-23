@@ -15,11 +15,11 @@ export class HomeComponent implements OnInit {
   }
 
   signOut() {
-    window['gapi'].load('auth2', () => this.logout());
+    this.google.logout();
   }
 
-  private async logout() {
-    this.google.logout();
+  get isGapiLoaded() {
+    return !!window['gapi'].auth2;
   }
 
 }

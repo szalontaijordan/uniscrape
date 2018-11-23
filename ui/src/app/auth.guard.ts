@@ -19,9 +19,9 @@ export class AuthGuard implements CanActivate {
   }
 
   private checkSession(): Observable<boolean> {
-    return this.http.get<boolean>('/api/google/isValidSession').pipe(
-      map(isValidSession => {
-        if (!isValidSession) {
+    return this.http.get<boolean>('/api/isValid').pipe(
+      map(isValid => {
+        if (!isValid) {
           this.router.navigate(['login']);
           return false;
         }

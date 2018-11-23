@@ -19,7 +19,7 @@ export class LoginGuard implements CanActivate {
   }
 
   private checkSession(): Observable<boolean> {
-    return this.http.get<boolean>('/api/google/isValidSession').pipe(
+    return this.http.get<boolean>('/api/isValid').pipe(
       map(isValidSession => {
         if (isValidSession) {
           this.router.navigate(['home']);

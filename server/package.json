@@ -1,10 +1,13 @@
 {
-  "name": "szakkdoga",
+  "name": "uniscrape_ui",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "dist/app.js",
   "scripts": {
-    "start": "ts-node src/app.ts",
+    "tsc": "tsc",
+    "tsc-watch": "tsc --p . --w",
+    "start": "ts-node ./app.ts",
+    "build": "tsc --p .",
     "dev": "node .\\node_modules\\nodemon\\bin\\nodemon.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -4,10 +4,10 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import path from 'path';
 import session from 'express-session';
 
-import { config } from '../config/vars';
+import { config } from './config/vars';
 
-import { DatabaseController } from './controllers/database.controller';
-import { GoogleAuthController } from './controllers/googleAuth.controller';
+import { DatabaseController } from './src/controllers/database.controller';
+import { GoogleAuthController } from './src/controllers/googleAuth.controller';
 
 const app: Application = express();
 const port: number = +process.env.PORT || 3000;
@@ -26,7 +26,7 @@ app.use((req, res, next) => {
     }
 });
 
-app.use(express.static(path.join(__dirname, '../../ui/dist')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // setting up session usage
 app.use(cookieParser());
@@ -47,13 +47,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // setting up routes
 app.use('/api/db', checkSession, DatabaseController);
 app.use('/api/google', GoogleAuthController);
+app.get('/api/isValid', (req, res) => res.send(!!req.session.user));
 
 // setting up index.html
-app.get('/', (req, res) => {
-    res.sendFile('index.html');
-});
+app.get('*', (req, res) => res.sendfile(__dirname + '/public/index.html'));
 
 // starting server
-app.listen(port, () => console.log(`Szakdoga app IS listening on port ${port}!`));
+app.listen(port, () => {
+    console.log(`Szakdoga app IS listening on port ${port}!`);
+    console.log(`Using static path: ${path.join(__dirname, '/public')}`);
+});
 
 export default app;
